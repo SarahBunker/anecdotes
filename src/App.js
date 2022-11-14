@@ -1,5 +1,14 @@
 import { useState } from 'react'
 
+function getRndInteger(min, max) {
+  // where min and max are both included
+  return Math.floor(Math.random() * (max - min) ) + min;
+}
+
+const Button = ({clickFunction, text}) => {
+  return <button onClick={clickFunction}>{text}</button>
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -11,11 +20,19 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.'
   ]
 
-  const [selected, setSelected] = useState(0)
+  function randomInteger() {
+    return getRndInteger(0, anecdotes.length - 1)
+  }
+
+  let index = randomInteger()
+  const [selected, setSelected] = useState(index)
+
+  let nextAnecDoteFunction = () => {setSelected(randomInteger())}
 
   return (
     <div>
-      {anecdotes[selected]}
+      <p>{anecdotes[selected]}</p>
+      <Button clickFunction={nextAnecDoteFunction} text="next anecdote" />
     </div>
   )
 }
